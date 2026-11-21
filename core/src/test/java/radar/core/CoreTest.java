@@ -112,4 +112,13 @@ class CoreTest {
         assertEquals((4 - 1.2) * 24 + (8 - 2.4) * 3.2, CostLens.waste(u, 24, 3.2), 1e-9);
         assertEquals("a", CostLens.byTeam(fleet(), List.of(u), 24, 3.2).get(0).team());
     }
+
+    @Test
+    void canarySplitIsAnIstioVirtualServiceAndRefusesBadNames() {
+        String y = Rollout.istio("booking-api", "bookings", "d42", 5);
+        assertTrue(y.contains("kind: VirtualService") && y.contains("weight: 95") && y.contains("weight: 5") && y.contains("exact: \"d42\""));
+        assertThrows(IllegalArgumentException.class, () -> Rollout.istio("Booking API", "bookings", "d42", 5));
+        assertThrows(IllegalArgumentException.class, () -> Rollout.istio("booking-api", "bookings", "d42\"; rm", 5));
+        assertThrows(IllegalArgumentException.class, () -> Rollout.istio("booking-api", "bookings", "d42", 101));
+    }
 }

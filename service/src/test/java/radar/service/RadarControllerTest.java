@@ -2,6 +2,7 @@ package radar.service;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,6 +71,11 @@ class RadarControllerTest {
                 .andExpect(jsonPath("$.message").value(org.hamcrest.Matchers.containsString("@pagerduty-bookings")));
         mvc.perform(get("/api/monitors/booking-api/error_spike").param("format", "terraform"))
                 .andExpect(jsonPath("$.terraform").value(org.hamcrest.Matchers.containsString("resource \"datadog_monitor\"")));
+        mvc.perform(get("/api/rollouts/booking-api/d42").param("namespace", "bookings"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("weight: 95")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("booking-api.bookings.svc.cluster.local")));
+        mvc.perform(get("/api/rollouts/no-such-service/d42")).andExpect(status().isUnprocessableContent());
         mvc.perform(get("/actuator/health")).andExpect(status().isOk());
     }
 }

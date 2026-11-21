@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,7 @@ import radar.core.Fingerprint;
 import radar.core.IncidentBrief;
 import radar.core.Mode;
 import radar.core.Monitors;
+import radar.core.Rollout;
 import radar.core.Settings;
 import tools.jackson.databind.JsonNode;
 
@@ -37,8 +39,11 @@ public class RadarController {
     private final Fleet fleet;
     private final JsonNode cfg = Settings.load("radar");
 
-    public RadarController(Fleet fleet) {
+    private final int canaryPercent;
+
+    public RadarController(Fleet fleet, @Value("${radar.canary-percent:5}") int canaryPercent) {
         this.fleet = fleet;
+        this.canaryPercent = canaryPercent;
     }
 
     public record DeployRequest(@NotBlank @Pattern(regexp = "[A-Za-z0-9._-]{1,64}") String id, @NotBlank String service, @Min(1) @Max(1_000_000) int changedLines,
@@ -79,6 +84,13 @@ public class RadarController {
     public Map<String, Object> monitor(@PathVariable String service, @PathVariable String mode, @RequestParam(defaultValue = "json") String format) {
         Map<String, Object> m = Monitors.datadog(fleet.catalog(), service, Mode.valueOf(mode.toUpperCase(java.util.Locale.ROOT)), cfg.get("sloTarget").asDouble());
         return format.equals("terraform") ? Map.of("terraform", Monitors.terraform(m)) : m;
+    }
+
+    /** The Istio traffic split for a canary of this deploy, at {@code radar.canary-percent} from application.properties. */
+    @GetMapping(value = "/api/rollouts/{service}/{deployId}", produces = "application/yaml")
+    public String rollout(@PathVariable String service, @PathVariable String deployId, @RequestParam(defaultValue = "default") String namespace) {
+        fleet.catalog().service(service);
+        return Rollout.istio(service, namespace, deployId, canaryPercent);
     }
 
     @GetMapping("/api/coverage")

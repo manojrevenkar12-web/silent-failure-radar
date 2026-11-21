@@ -6,7 +6,7 @@ It is built for the job an operational-excellence team does across a large engin
 
 1. **Coverage gaps.** It reads the service catalog, the call graph, the monitors that exist and the incident history. It ranks every (service, failure mode) pair nobody watches by blast radius (tier and dependents), by how often incidents there were noticed by chance, and by whether the mode is one that static thresholds miss (silent drops, slow latency creep). Each team has a monitor budget, so the ranking decides what gets added first.
 2. **Monitors as code, routed to owners.** Each gap becomes a Datadog monitor. Error and dependency failures get an SLO burn-rate alert that pages when the last hour burns the error budget 14.4 times faster than allowed (the fast-burn threshold from the SRE workbook), so a blip does not page and an outage pages in minutes. Silent drops in business metrics get an anomaly monitor that also alerts when the metric stops reporting. Every monitor carries `service:`, `team:`, `tier:` and `mode:` tags, notifies the owning team's channel and, for tier 1, its PagerDuty. They are exported as Datadog API JSON and as Terraform `datadog_monitor` resources, and `radar lint` checks them in CI before they are applied.
-3. **Deploy-risk gate.** A logistic model trained on eight weeks of deploy history (untested changed lines, change size, untested share, the service's blast radius and its incidents in the last four weeks) scores each change. Low risk ships; medium risk goes to a 5% canary with automatic rollback; high risk must add tests for the untested lines and ship behind a flag and a canary. `radar gate` asks the service from the pipeline and fails the build only when tests or a flag are missing. If the radar is down, the pipeline falls back to a canary instead of blocking every team.
+3. **Deploy-risk gate.** A logistic model trained on eight weeks of deploy history (untested changed lines, change size, untested share, the service's blast radius and its incidents in the last four weeks) scores each change. Low risk ships; medium risk goes to a 5% canary with automatic rollback (the service emits the Istio `VirtualService` and `DestinationRule` for the split); high risk must add tests for the untested lines and ship behind a flag and a canary. `radar gate` asks the service from the pipeline and fails the build only when tests or a flag are missing. If the radar is down, the pipeline falls back to a canary instead of blocking every team.
 4. **Incident brief and follow-through.** When Datadog fires, the webhook builds a brief for whoever is on call: the deploys to that service and its dependencies in the last three hours, ranked as suspects; earlier incidents with the same fingerprint and the actions they left open. Actions are tracked, so recurrences fall. A cost lens shows requested compute above p95 usage plus 20% headroom, per team.
 
 ## Results
@@ -58,7 +58,7 @@ What the comparisons say:
 ## Limits
 
 - The organisation, its incidents and its customers are simulated. The numbers show how the designs compare inside this world, not what GetYourGuide or any real company would see. Rates (bugs per untested thousand lines, false alarms per monitor, how fast customers report) are set in `config/world.json` from public SRE material and my own judgement, not measured.
-- Nothing here talks to a real Datadog, Kubernetes cluster or CI system. The monitors are valid Datadog API and Terraform shapes, but they were not applied to a Datadog account. The Spring Boot service holds its fleet in memory.
+- Nothing here talks to a real Datadog, Kubernetes cluster, Istio mesh or CI system; the Istio manifests were not applied to a cluster. The monitors are valid Datadog API and Terraform shapes, but they were not applied to a Datadog account. The Spring Boot service holds its fleet in memory.
 - The deploy-risk model is a small logistic regression on five features. Real change-failure data has more signal (author experience, files touched, dependency changes) and more noise.
 - The incident brief ranks suspects by timing and dependency; it does not read logs or traces.
 - False pages are still a large share of all pages in every design, because every monitor in the world fires falsely at some rate. The radar's share is lower than today's, not low.
@@ -86,13 +86,14 @@ cd cli && go test ./... && go build -o radar .
 | `POST /api/deploys/gate` | Scores a change and returns `SHIP`, `CANARY` or `TESTS_FLAG_AND_CANARY`, with the lines that still need tests |
 | `POST /webhooks/datadog` | Takes a Datadog alert, returns the incident brief: suspect deploys, fingerprint, earlier incidents, open actions |
 | `GET /api/monitors/{service}/{mode}` | The monitor for a gap as Datadog JSON, or Terraform with `?format=terraform` |
+| `GET /api/rollouts/{service}/{deployId}` | The Istio traffic split for a canary of that deploy, as YAML |
 | `GET /api/coverage` | Ranked coverage gaps for the fleet |
 | `GET /actuator/health`, `/actuator/prometheus` | Health and Micrometer metrics |
 
 ## Layout
 
 ```
-core/      catalog, coverage ranking, monitors as code, deploy-risk model and gate, fingerprints, brief, cost lens
+core/      catalog, coverage ranking, monitors as code, deploy-risk model and gate, Istio canary split, fingerprints, brief, cost lens
 world/     the simulated organisation; it holds the truth and never reads the radar's settings
 eval/      designs, same-luck evaluation, block bootstrap, gates, the generated report
 service/   Spring Boot API (gate, Datadog webhook, monitors, coverage, actuator)
