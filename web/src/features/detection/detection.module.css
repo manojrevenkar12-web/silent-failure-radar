@@ -1,0 +1,193 @@
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot,
+.end {
+  display: inline-block;
+  background: var(--ink-muted);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.end {
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.scale {
+  margin-left: auto;
+}
+
+.grid {
+  display: grid;
+  gap: 0;
+}
+
+.axis,
+.row {
+  display: grid;
+  grid-template-columns: minmax(9rem, 13rem) 1fr 9.5rem;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.axis {
+  height: 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.axisTrack {
+  position: relative;
+  height: 100%;
+}
+
+.tick {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.tick:first-child {
+  transform: none;
+}
+
+.tick:last-child {
+  transform: translateX(-100%);
+}
+
+.row {
+  min-height: 2.75rem;
+  border-top: var(--hairline) solid var(--rule);
+  outline-offset: -2px;
+  --tone: var(--other);
+}
+
+.row:hover,
+.row:focus-visible {
+  background: var(--surface);
+}
+
+.row[data-tone="radar"] {
+  --tone: var(--radar);
+}
+
+.row[data-tone="today"] {
+  --tone: var(--today);
+}
+
+.name {
+  font-size: var(--step--1);
+}
+
+.row[data-tone="radar"] .name,
+.row[data-tone="today"] .name {
+  font-weight: var(--weight-bold);
+}
+
+.track {
+  position: relative;
+  height: 100%;
+  min-height: 2.75rem;
+}
+
+.gridline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--hairline);
+  background: var(--rule);
+}
+
+.span {
+  position: absolute;
+  top: calc(50% - 2px);
+  height: 4px;
+  border-radius: 2px;
+  background: var(--tone);
+  opacity: 0.55;
+  transform-origin: left center;
+}
+
+.notice {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--tone);
+  box-shadow: 0 0 0 2px var(--fog);
+}
+
+.fixed {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 18px;
+  margin: -9px 0 0 -1.5px;
+  border-radius: 2px;
+  background: var(--tone);
+}
+
+.values {
+  font-size: var(--step--1);
+  text-align: right;
+}
+
+.sep {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 44rem) {
+  .axis {
+    grid-template-columns: 1fr;
+  }
+
+  .axis > span {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name values" "track track";
+    gap: 0 var(--space-3);
+    padding-top: var(--space-2);
+  }
+
+  .name {
+    grid-area: name;
+  }
+
+  .values {
+    grid-area: values;
+  }
+
+  .track {
+    grid-area: track;
+    min-height: 1.75rem;
+  }
+}

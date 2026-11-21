@@ -1,0 +1,13 @@
+{
+  "name" : "[svc-008] latency p95 over latency budget",
+  "type" : "query alert",
+  "query" : "percentile(last_15m):p95:trace.http.request.duration{service:svc-008} > 1.5",
+  "message" : "{{#is_alert}}p95 over latency budget latency on svc-008. Runbook: https://runbooks.internal/svc-008/latency @slack-team-i{{/is_alert}}",
+  "tags" : [ "service:svc-008", "team:team-i", "tier:2", "mode:latency", "managed-by:silent-failure-radar" ],
+  "options" : {
+    "notify_no_data" : false,
+    "renotify_interval" : 0,
+    "require_full_window" : false
+  },
+  "priority" : 2
+}

@@ -1,0 +1,17 @@
+{
+  "name" : "[svc-008] dependency SLO burn rate",
+  "type" : "query alert",
+  "query" : "(sum(last_1h):sum:trace.http.request.errors{service:svc-008}.as_count() / sum:trace.http.request.hits{service:svc-008}.as_count()) > 0.0144",
+  "message" : "{{#is_alert}}SLO burn rate dependency on svc-008. Runbook: https://runbooks.internal/svc-008/dependency @slack-team-i{{/is_alert}}",
+  "tags" : [ "service:svc-008", "team:team-i", "tier:2", "mode:dependency", "managed-by:silent-failure-radar" ],
+  "options" : {
+    "notify_no_data" : false,
+    "renotify_interval" : 0,
+    "require_full_window" : false,
+    "thresholds" : {
+      "critical" : 0.0144,
+      "warning" : 0.006
+    }
+  },
+  "priority" : 2
+}

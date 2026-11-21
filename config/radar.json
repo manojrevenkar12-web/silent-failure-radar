@@ -1,0 +1,19 @@
+{
+  "_comment": "How each design works. Read by eval/ and the service; never by world/.",
+  "sloTarget": 0.999,
+  "monitorBudgetPerTeam": 16,
+  "gate": {"canaryAt": 0.06, "testsAt": 0.15, "testedShareAfterGate": 0.9},
+  "riskModel": {"l2": 0.01, "iterations": 600},
+  "recentIncidentWeeks": 4,
+  "briefWindowMinutes": 180,
+  "designs": {
+    "status_quo": {"label": "Today's monitors, every change ships straight out", "monitors": "existing"},
+    "alert_everything": {"label": "A static threshold on every service and mode", "monitors": "everything"},
+    "radar": {"label": "This radar", "monitors": "ranked", "kind": "best", "gate": true, "trackActions": true, "brief": true},
+    "no_gate": {"label": "Radar without the deploy-risk gate", "base": "radar", "gate": false},
+    "unranked": {"label": "Radar adding monitors at random, same budget", "base": "radar", "monitors": "random"},
+    "static_only": {"label": "Radar with static thresholds instead of burn rates", "base": "radar", "kind": "static"},
+    "no_tracking": {"label": "Radar without action tracking", "base": "radar", "trackActions": false},
+    "no_brief": {"label": "Radar without the incident brief", "base": "radar", "brief": false}
+  }
+}

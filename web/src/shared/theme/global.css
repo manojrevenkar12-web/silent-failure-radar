@@ -1,0 +1,52 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--fog);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 100%;
+  font-weight: var(--weight-regular);
+  line-height: var(--leading);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--radar);
+  outline-offset: 2px;
+}
+
+code {
+  font-family: inherit;
+  font-weight: var(--weight-medium);
+  background: var(--track);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius);
+}
+
+.num {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

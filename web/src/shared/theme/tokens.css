@@ -1,0 +1,56 @@
+/* Theme tokens. Two hues carry meaning everywhere: teal is the radar (caught by a monitor), amber is today
+ * (noticed by a customer first). Every other design is neutral ink. Both pairs pass the palette validator
+ * against their surface (light #009486/#B4540A, dark #1FA89D/#D9762C). */
+:root {
+  --fog: #eef1f5;
+  --surface: #ffffff;
+  --ink: #16202c;
+  --ink-muted: #556172;
+  --rule: #d3d9e1;
+  --track: #e3e8ee;
+  --radar: #009486;
+  --today: #b4540a;
+  --other: #7a8494;
+  --radar-wash: #e1f3f1;
+
+  --font: "IBM Plex Sans", system-ui, sans-serif;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+  --leading: 1.5;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: 2.5rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.25rem;
+  --space-7: 3.5rem;
+  --measure: 68ch;
+  --page: 72rem;
+  --radius: 4px;
+  --hairline: 1px;
+  --bar-h: 2.5rem;
+  --shimmer: 1.4s;
+  --claim: var(--today);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fog: #121820;
+    --surface: #1a222c;
+    --ink: #e6eaef;
+    --ink-muted: #a0aab7;
+    --rule: #2f3a47;
+    --track: #26303b;
+    --radar: #1fa89d;
+    --today: #d9762c;
+    --other: #8c96a6;
+    --radar-wash: #15312f;
+  }
+}

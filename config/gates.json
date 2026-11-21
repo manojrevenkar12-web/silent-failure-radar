@@ -1,0 +1,9 @@
+{
+  "_comment": "Set from development seeds (1, 2, 3) before the held-out run. Never loosened after it.",
+  "radar": {
+    "monitorDetectedShareMin": 0.40,
+    "impactCutVsStatusQuoLowMin": 0.60,
+    "pagesPerTeamWeekMax": 6.5,
+    "falsePageShareMaxOfStatusQuo": 1.0
+  }
+}

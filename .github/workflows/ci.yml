@@ -1,0 +1,67 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  java:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # the held-out check reads the lock's history
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: build and test (-Xlint:all -Werror)
+        run: ./gradlew build
+      - name: the reports pass their gates
+        run: ./gradlew :eval:gate
+      - name: the held-out run happened once
+        run: |
+          if [ -f reports/heldout.lock ]; then
+            n=$(git log --format=%H --no-renames -- reports/heldout.lock | wc -l)
+            echo "heldout.lock commits: $n"; test "$n" -eq 1
+          fi
+      - name: reports and monitors are generated, not edited
+        run: |
+          ./gradlew :eval:readme
+          git diff --exit-code -- REPORT.md README.md examples/
+
+  go:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: cli
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.24"
+          cache: false
+      - name: format
+        run: test -z "$(gofmt -l .)"
+      - run: go vet ./...
+      - run: go test -count=1 ./...
+      - run: go build -o radar .
+      - name: lint the generated monitors
+        run: ./radar lint ../examples/datadog/*.json
+
+  dashboard:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build

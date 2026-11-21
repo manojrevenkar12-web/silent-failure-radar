@@ -1,0 +1,73 @@
+.figure {
+  margin: 0;
+  max-width: 48rem;
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 34rem;
+  height: auto;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.tick {
+  fill: var(--ink-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.axisLabel {
+  fill: var(--ink-muted);
+  font-size: 12px;
+}
+
+.point {
+  --tone: var(--other);
+  outline: none;
+}
+
+.point[data-tone="radar"] {
+  --tone: var(--radar);
+}
+
+.point[data-tone="today"] {
+  --tone: var(--today);
+}
+
+.hit {
+  fill: transparent;
+}
+
+.dot {
+  fill: var(--tone);
+  stroke: var(--fog);
+  stroke-width: 2;
+}
+
+.point:hover .dot,
+.point:focus-visible .dot {
+  stroke: var(--ink);
+}
+
+.leader {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+.label {
+  fill: var(--ink);
+  font-size: 13px;
+}
+
+.point[data-tone="radar"] .label,
+.point[data-tone="today"] .label {
+  font-weight: 600;
+}
