@@ -2,16 +2,16 @@
   "name" : "[svc-003] error spike SLO burn rate",
   "type" : "query alert",
   "query" : "(sum(last_1h):sum:trace.http.request.errors{service:svc-003}.as_count() / sum:trace.http.request.hits{service:svc-003}.as_count()) > 0.0144",
-  "message" : "{{#is_alert}}SLO burn rate error spike on svc-003. Runbook: https://runbooks.internal/svc-003/error_spike @pagerduty-team-i @slack-team-i{{/is_alert}}",
-  "tags" : [ "service:svc-003", "team:team-i", "tier:1", "mode:error_spike", "managed-by:silent-failure-radar" ],
+  "message" : "{{#is_alert}}SLO burn rate error spike on svc-003. Runbook: https://runbooks.internal/svc-003/error_spike @slack-team-h{{/is_alert}}",
+  "tags" : [ "service:svc-003", "team:team-h", "tier:3", "mode:error_spike", "managed-by:silent-failure-radar" ],
   "options" : {
     "notify_no_data" : false,
-    "renotify_interval" : 30,
+    "renotify_interval" : 0,
     "require_full_window" : false,
     "thresholds" : {
       "critical" : 0.0144,
       "warning" : 0.006
     }
   },
-  "priority" : 1
+  "priority" : 3
 }

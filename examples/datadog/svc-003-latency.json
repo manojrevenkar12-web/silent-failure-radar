@@ -1,0 +1,13 @@
+{
+  "name" : "[svc-003] latency p95 over latency budget",
+  "type" : "query alert",
+  "query" : "percentile(last_15m):p95:trace.http.request.duration{service:svc-003} > 3",
+  "message" : "{{#is_alert}}p95 over latency budget latency on svc-003. Runbook: https://runbooks.internal/svc-003/latency @slack-team-h{{/is_alert}}",
+  "tags" : [ "service:svc-003", "team:team-h", "tier:3", "mode:latency", "managed-by:silent-failure-radar" ],
+  "options" : {
+    "notify_no_data" : false,
+    "renotify_interval" : 0,
+    "require_full_window" : false
+  },
+  "priority" : 3
+}

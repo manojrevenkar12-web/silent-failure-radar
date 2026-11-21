@@ -88,7 +88,7 @@ public final class Monitors {
     }
 
     /** What the monitor watches, in the words the on-call engineer sees. */
-    static String label(Mode mode) {
+    public static String label(Mode mode) {
         return switch (mode) {
             case ERROR_SPIKE, DEPENDENCY -> "SLO burn rate";
             case LATENCY -> "p95 over latency budget";

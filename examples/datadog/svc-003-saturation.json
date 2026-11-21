@@ -1,0 +1,13 @@
+{
+  "name" : "[svc-003] saturation CPU above 90% of limit",
+  "type" : "query alert",
+  "query" : "avg(last_10m):avg:kubernetes.cpu.usage.total{service:svc-003} / avg:kubernetes.cpu.limits{service:svc-003} > 0.9",
+  "message" : "{{#is_alert}}CPU above 90% of limit saturation on svc-003. Runbook: https://runbooks.internal/svc-003/saturation @slack-team-h{{/is_alert}}",
+  "tags" : [ "service:svc-003", "team:team-h", "tier:3", "mode:saturation", "managed-by:silent-failure-radar" ],
+  "options" : {
+    "notify_no_data" : false,
+    "renotify_interval" : 0,
+    "require_full_window" : false
+  },
+  "priority" : 3
+}

@@ -2,6 +2,14 @@ import { type DesignRow, type Gap, type Report, num, words } from "../../shared/
 import table from "../../shared/ui/table.module.css";
 import styles from "./gaps.module.css";
 
+const MONITOR: Record<string, string> = {
+  ERROR_SPIKE: "SLO burn rate",
+  DEPENDENCY: "SLO burn rate",
+  LATENCY: "p95 over latency budget",
+  SATURATION: "CPU above 90% of limit",
+  SILENT_DROP: "business-metric anomaly",
+};
+
 /** The first monitors the radar adds, and what the gate and the cost lens cost or save. */
 export function Gaps({ gaps, radar, cost }: { gaps: Gap[]; radar: DesignRow; cost: Report["cost"] }) {
   if (gaps.length === 0) return <p className={styles.empty}>No coverage gaps in this fleet: every service and failure mode already has a monitor that sees it.</p>;
@@ -28,7 +36,7 @@ export function Gaps({ gaps, radar, cost }: { gaps: Gap[]; radar: DesignRow; cos
                 <td>{words(g.mode)}</td>
                 <td>{g.caught_by_chance}</td>
                 <td>{num(g.score)}</td>
-                <td>{words(g.fix)}</td>
+                <td>{MONITOR[g.mode] ?? words(g.fix)}</td>
               </tr>
             ))}
           </tbody>

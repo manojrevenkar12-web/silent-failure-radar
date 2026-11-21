@@ -1,0 +1,199 @@
+{
+  "set" : "heldout",
+  "seeds" : [ 8101, 8102, 8103 ],
+  "config_sha" : "101f5399eb211d9d",
+  "generated_at" : "2026-11-21T19:41:16Z",
+  "facts" : {
+    "services" : 360,
+    "teams" : 36,
+    "existing_monitors" : 564,
+    "history_incidents" : 817,
+    "history_caught_by_chance" : 691,
+    "live_deploys" : 17283,
+    "gaps" : 1532
+  },
+  "designs" : {
+    "status_quo" : {
+      "label" : "Today's monitors, every change ships straight out",
+      "impact_per_week" : [ 41694.3644, 36370.3575, 47912.9404 ],
+      "change_failure_rate" : [ 0.0796, 0.0764, 0.0835 ],
+      "monitor_detected_share" : [ 0.1759, 0.1577, 0.1912 ],
+      "mttd_median_min" : [ 647.0, 503.0, 737.0 ],
+      "mttr_median_min" : [ 754.0, 634.0, 881.0 ],
+      "pages_per_team_week" : [ 5.1823, 4.9896, 5.3663 ],
+      "false_page_share" : [ 0.8925, 0.882, 0.9033 ],
+      "recurrences_per_week" : [ 9.375, 8.0, 10.9375 ],
+      "incidents_per_week" : [ 38.0208, 36.1667, 39.875 ],
+      "test_hours_per_week" : 0.0,
+      "caught_in_canary" : 0,
+      "incidents" : 1825
+    },
+    "alert_everything" : {
+      "label" : "A static threshold on every service and mode",
+      "impact_per_week" : [ 38537.9, 33204.2379, 44719.2025 ],
+      "impact_cut_vs_status_quo" : [ 0.0757, 0.0554, 0.1028 ],
+      "change_failure_rate" : [ 0.0796, 0.0764, 0.0835 ],
+      "monitor_detected_share" : [ 0.3885, 0.3693, 0.4099 ],
+      "mttd_median_min" : [ 120.0, 63.0, 253.0 ],
+      "mttr_median_min" : [ 310.0, 285.0, 370.0 ],
+      "pages_per_team_week" : [ 15.8542, 15.4948, 16.2222 ],
+      "false_page_share" : [ 0.9224, 0.9169, 0.9277 ],
+      "recurrences_per_week" : [ 9.375, 8.0417, 11.0417 ],
+      "incidents_per_week" : [ 38.0208, 36.2083, 39.9167 ],
+      "test_hours_per_week" : 0.0,
+      "caught_in_canary" : 0,
+      "incidents" : 1825
+    },
+    "radar" : {
+      "label" : "This radar",
+      "impact_per_week" : [ 12231.2331, 9299.245, 15552.4615 ],
+      "impact_cut_vs_status_quo" : [ 0.7066, 0.6493, 0.7656 ],
+      "change_failure_rate" : [ 0.0737, 0.0702, 0.0776 ],
+      "monitor_detected_share" : [ 0.4424, 0.4174, 0.468 ],
+      "mttd_median_min" : [ 50.0, 44.0, 76.0 ],
+      "mttr_median_min" : [ 125.0, 93.0, 178.0 ],
+      "pages_per_team_week" : [ 4.6215, 4.4861, 4.7639 ],
+      "false_page_share" : [ 0.7765, 0.7594, 0.7924 ],
+      "recurrences_per_week" : [ 1.5, 1.1458, 1.8542 ],
+      "incidents_per_week" : [ 28.0208, 26.7917, 29.4167 ],
+      "test_hours_per_week" : 76.0,
+      "caught_in_canary" : 360,
+      "incidents" : 1345
+    },
+    "no_gate" : {
+      "label" : "Radar without the deploy-risk gate",
+      "impact_per_week" : [ 14184.1675, 11284.9446, 17685.5648 ],
+      "impact_cut_vs_status_quo" : [ 0.6598, 0.6009, 0.7153 ],
+      "change_failure_rate" : [ 0.0796, 0.0764, 0.0835 ],
+      "monitor_detected_share" : [ 0.439, 0.4147, 0.462 ],
+      "mttd_median_min" : [ 51.0, 44.0, 75.0 ],
+      "mttr_median_min" : [ 135.0, 104.0, 175.0 ],
+      "pages_per_team_week" : [ 4.6944, 4.5625, 4.8403 ],
+      "false_page_share" : [ 0.7644, 0.748, 0.7805 ],
+      "recurrences_per_week" : [ 1.5833, 1.2292, 1.9583 ],
+      "incidents_per_week" : [ 30.2292, 29.0208, 31.6458 ],
+      "test_hours_per_week" : 0.0,
+      "caught_in_canary" : 0,
+      "incidents" : 1451
+    },
+    "unranked" : {
+      "label" : "Radar adding monitors at random, same budget",
+      "impact_per_week" : [ 21767.3874, 17088.9787, 26681.8721 ],
+      "impact_cut_vs_status_quo" : [ 0.4779, 0.42, 0.5387 ],
+      "change_failure_rate" : [ 0.0737, 0.0702, 0.0776 ],
+      "monitor_detected_share" : [ 0.4491, 0.4185, 0.4801 ],
+      "mttd_median_min" : [ 49.0, 41.0, 71.0 ],
+      "mttr_median_min" : [ 127.0, 89.5, 200.0 ],
+      "pages_per_team_week" : [ 4.7535, 4.5903, 4.9462 ],
+      "false_page_share" : [ 0.7794, 0.7663, 0.7942 ],
+      "recurrences_per_week" : [ 1.5, 1.125, 1.8542 ],
+      "incidents_per_week" : [ 28.0208, 26.7917, 29.4583 ],
+      "test_hours_per_week" : 76.0,
+      "caught_in_canary" : 370,
+      "incidents" : 1345
+    },
+    "static_only" : {
+      "label" : "Radar with static thresholds instead of burn rates",
+      "impact_per_week" : [ 25630.5189, 20254.6946, 31114.9515 ],
+      "impact_cut_vs_status_quo" : [ 0.3853, 0.323, 0.4546 ],
+      "change_failure_rate" : [ 0.0737, 0.0702, 0.0776 ],
+      "monitor_detected_share" : [ 0.2773, 0.2545, 0.3001 ],
+      "mttd_median_min" : [ 462.0, 368.0, 625.0 ],
+      "mttr_median_min" : [ 520.0, 416.0, 672.0 ],
+      "pages_per_team_week" : [ 8.2396, 7.967, 8.5052 ],
+      "false_page_share" : [ 0.9214, 0.9144, 0.9281 ],
+      "recurrences_per_week" : [ 1.5, 1.125, 1.875 ],
+      "incidents_per_week" : [ 28.0208, 26.75, 29.3958 ],
+      "test_hours_per_week" : 76.0,
+      "caught_in_canary" : 237,
+      "incidents" : 1345
+    },
+    "no_tracking" : {
+      "label" : "Radar without action tracking",
+      "impact_per_week" : [ 17490.3302, 14461.6845, 21318.3969 ],
+      "impact_cut_vs_status_quo" : [ 0.5805, 0.5223, 0.6395 ],
+      "change_failure_rate" : [ 0.0737, 0.0702, 0.0776 ],
+      "monitor_detected_share" : [ 0.4419, 0.4199, 0.4631 ],
+      "mttd_median_min" : [ 49.0, 44.0, 62.5 ],
+      "mttr_median_min" : [ 216.5, 210.0, 226.5 ],
+      "pages_per_team_week" : [ 4.8958, 4.7535, 5.0642 ],
+      "false_page_share" : [ 0.733, 0.714, 0.7504 ],
+      "recurrences_per_week" : [ 8.9792, 7.6458, 10.4167 ],
+      "incidents_per_week" : [ 35.5, 33.7292, 37.4583 ],
+      "test_hours_per_week" : 76.0,
+      "caught_in_canary" : 360,
+      "incidents" : 1704
+    },
+    "no_brief" : {
+      "label" : "Radar without the incident brief",
+      "impact_per_week" : [ 13009.4093, 10003.147, 16252.9882 ],
+      "impact_cut_vs_status_quo" : [ 0.688, 0.6314, 0.7448 ],
+      "change_failure_rate" : [ 0.0737, 0.0702, 0.0776 ],
+      "monitor_detected_share" : [ 0.4424, 0.4174, 0.468 ],
+      "mttd_median_min" : [ 50.0, 44.0, 76.0 ],
+      "mttr_median_min" : [ 161.0, 127.0, 213.0 ],
+      "pages_per_team_week" : [ 4.6215, 4.4861, 4.7639 ],
+      "false_page_share" : [ 0.7765, 0.7594, 0.7924 ],
+      "recurrences_per_week" : [ 1.5, 1.1458, 1.8542 ],
+      "incidents_per_week" : [ 28.0208, 26.7917, 29.4167 ],
+      "test_hours_per_week" : 76.0,
+      "caught_in_canary" : 360,
+      "incidents" : 1345
+    }
+  },
+  "cost" : {
+    "saved_if_teams_act_eur_per_month" : 4062.2454,
+    "eur_per_month" : 16028.7412,
+    "waste_eur_per_month" : 6770.4091
+  },
+  "top_gaps_first_seed" : [ {
+    "service" : "svc-000",
+    "mode" : "SATURATION",
+    "caught_by_chance" : 4,
+    "score" : 1220.8,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-015",
+    "mode" : "ERROR_SPIKE",
+    "caught_by_chance" : 4,
+    "score" : 1152.0,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-003",
+    "mode" : "ERROR_SPIKE",
+    "caught_by_chance" : 1,
+    "score" : 1080.0,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-004",
+    "mode" : "DEPENDENCY",
+    "caught_by_chance" : 4,
+    "score" : 932.4,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-003",
+    "mode" : "LATENCY",
+    "caught_by_chance" : 1,
+    "score" : 900.0,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-003",
+    "mode" : "SATURATION",
+    "caught_by_chance" : 2,
+    "score" : 880.0,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-005",
+    "mode" : "ERROR_SPIKE",
+    "caught_by_chance" : 1,
+    "score" : 849.6,
+    "fix" : "BURN_RATE"
+  }, {
+    "service" : "svc-009",
+    "mode" : "ERROR_SPIKE",
+    "caught_by_chance" : 2,
+    "score" : 799.2,
+    "fix" : "BURN_RATE"
+  } ],
+  "risk_weights_first_seed" : [ -4.456850406703889, 0.725499317789406, -0.23766023315049, -0.03518699469112386, -0.018401500154624655, 0.0410984656863862 ]
+}
