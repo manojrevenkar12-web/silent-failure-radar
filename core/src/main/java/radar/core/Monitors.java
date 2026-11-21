@@ -49,7 +49,10 @@ public final class Monitors {
         options.put("renotify_interval", s.tier() == 1 ? 30 : 0);
         options.put("require_full_window", false);
         if (kind == MonitorKind.BURN_RATE && (mode == Mode.ERROR_SPIKE || mode == Mode.DEPENDENCY)) {
-            options.put("thresholds", Map.of("critical", round(14.4 * budget), "warning", round(6 * budget)));
+            Map<String, Object> thresholds = new LinkedHashMap<>(); // fixed order, so the generated files never churn
+            thresholds.put("critical", round(14.4 * budget));
+            thresholds.put("warning", round(6 * budget));
+            options.put("thresholds", thresholds);
         }
         m.put("options", options);
         m.put("priority", s.tier());
